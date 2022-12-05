@@ -1,0 +1,54 @@
+﻿@using ProjetoR.Models.Seguranca;
+@using ProjetoR.Models.ProjetoR;
+@{
+    Usuario.Cliente c = (Usuario.Cliente)Usuario.CarregarUsuario(Request);
+    List<Pedido> pedidos = c.ClienteBd.CarregarPedidos();
+    decimal total = 0;
+}
+<div class="container">
+    <h2>Pedidos efetuados</h2>
+    @foreach (Pedido p in pedidos)
+    {
+        <h4>Status: @((Status)p.Status)</h4>
+        <h4>Preço: @p.PrecoProdutos</h4>
+        <h4>Produtos:</h4>
+        <table class="table">
+            <tr>
+                <th>Nome</th>
+                <th>Observações</th>
+            </tr>
+            @foreach (PedidoItem pi in p.CarregarItems())
+            {
+                Produto produto = Produto.CarregarProduto(pi.ProdutoId);
+                total += produto.Preco;
+        <tr>
+            <th>@produto.Nome</th>
+            <th>@pi.Observacoes</th>
+        </tr>
+    }
+        </table>
+    }
+    <h4>Taxa de serviço: R$5,00</h4>
+    <h3>Total: @(total+5)</h3>
+</div>
+
+<div class="container">
+    <h2>Carrinho de compras</h2>
+    <table class="table">
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+        </tr>
+        @foreach (Produto p in c.Carrinho)
+        {
+            <tr>
+                <th>@p.Nome</th>
+                <th>@p.Descricao</th>
+                <th>@p.Preco</th>
+            </tr>
+        }
+    </table>
+    <br />
+    <h2>@Html.ActionLink("Realizar Pedido", "CarrinhoRealizarPedido", "RestauranteCliente")</h2>
+</div>

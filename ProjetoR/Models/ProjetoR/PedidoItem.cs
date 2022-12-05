@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 
@@ -19,5 +20,19 @@ namespace ProjetoR.Models.ProjetoR
 			this.ProdutoId = ProdutoId_;
 			this.Observacoes = Observacoes_;
 		}
-	}
+
+        public static PedidoItem CarregarPedido(SqlDataReader reader, bool readed)
+		{
+			if (!readed)
+				if (!reader.Read())
+					throw new NotImplementedException();
+			return new PedidoItem((int)reader["Id"], (int)reader["PedidoId"],
+				(int)reader["ProdutoId"], (string)reader["Observacoes"]);
+        }
+
+		public Produto CarregarProduto()
+        {
+			return Produto.CarregarProduto(ProdutoId);
+        }
+    }
 }

@@ -121,9 +121,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RestauranteClienteController.cs" />
+    <Compile Include="Controllers\RestauranteController.cs" />
+    <Compile Include="Controllers\RestauranteCozinhaController.cs" />
+    <Compile Include="Controllers\RestauranteGerenteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProjetoR\BancoDeDados.cs" />
     <Compile Include="Models\ProjetoR\Categoria.cs" />
     <Compile Include="Models\ProjetoR\Cliente.cs" />
     <Compile Include="Models\ProjetoR\Menu.cs" />
@@ -132,6 +137,8 @@
     <Compile Include="Models\ProjetoR\Pedido.cs" />
     <Compile Include="Models\ProjetoR\PedidoItem.cs" />
     <Compile Include="Models\ProjetoR\Produto.cs" />
+    <Compile Include="Models\ProjetoR\Status.cs" />
+    <Compile Include="Models\Seguranca\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -167,12 +174,15 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\RestauranteGerente\Gerenciador.cshtml" />
+    <Content Include="Views\Restaurante\Menu.cshtml" />
+    <Content Include="Views\RestauranteCliente\Carrinho.cshtml" />
+    <Content Include="Views\RestauranteCozinha\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Models\Estabelecimento\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

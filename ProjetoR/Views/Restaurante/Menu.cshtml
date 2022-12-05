@@ -1,0 +1,72 @@
+﻿@using ProjetoR.Models.ProjetoR;
+@using ProjetoR.Controllers;
+@using ProjetoR.Models.Seguranca;
+@{
+    Usuario u = Usuario.CarregarUsuario(Request);
+    bool admin = u is Usuario.Gerente;
+    bool cliente = u is Usuario.Cliente;
+    Dictionary<Categoria, List<Produto>> prodcat = RestauranteController.MenuAtivo.CarregarCategoriasProdutos();
+    Dictionary<Categoria, List<Produto>> allProdCat = Categoria.CarregarCategoriasProdutos();
+}
+@foreach (var cp in prodcat)
+{
+    <div class="container">
+        <h2>@cp.Key.Nome</h2>
+        <p>@cp.Key.Descricao</p>
+        <table class="table">
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                @if (admin||cliente)
+                {
+                <th></th>
+                }
+            </tr>
+            @foreach (Produto p in cp.Value)
+            {
+        <tr>
+            <th>@p.Nome</th>
+            <th>@p.Descricao</th>
+            <th>@p.Preco</th>
+            @if (admin)
+            {
+            <th>@Html.ActionLink("Remover", "MenuRemoverProduto", "RestauranteGerente", new { id = p.Id }, null)</th>
+            }
+            else if (cliente)
+            {
+            <th>@Html.ActionLink("Adicionar", "CarrinhoAdicionar", "RestauranteCliente", new { id = p.Id }, null) </th>
+            }
+        </tr>
+            }
+            @if (admin)
+            {
+            <form method="post" action="~/RestauranteGerente/MenuAdicionarProduto">
+            <tr>
+                <th>
+                    <select name="id">
+                    @foreach(var cpx in allProdCat)
+                    {
+                        if (cpx.Key.Id == cp.Key.Id)
+                        {
+                            foreach(Produto p in cpx.Value)
+                            {
+                                if (!cp.Value.Contains(p))
+                                {
+                                    <option value="@p.Id">@p.Nome</option>
+                                }
+                            }
+                        }
+                    }
+                    </select>
+                </th>
+                <th></th>
+                <th></th>
+                <th><input type="submit" /></th>
+            </tr>
+            </form>
+            }
+        </table>
+        <br />
+    </div>
+}

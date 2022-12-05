@@ -1,0 +1,63 @@
+﻿@using ProjetoR.Models.ProjetoR;
+@{
+    Dictionary<Categoria, List<Produto>> prodcat = Categoria.CarregarCategoriasProdutos();
+}
+@foreach (var cp in prodcat)
+{
+<div class="container">
+    <h2>@cp.Key.Nome</h2>
+    <h4>@Html.ActionLink("Excluir", "RemoverCategoria", "RestauranteGerente", new { id = cp.Key.Id }, null) </h4>
+    <p>@cp.Key.Descricao</p>
+    <table class="table">
+        <tr>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Preço</th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (Produto p in cp.Value)
+        {
+            <tr>
+                <th>@p.Nome</th>
+                <th>@p.Descricao</th>
+                <th>@p.Preco</th>
+                <th>@Html.ActionLink("Excluir", "RemoverProduto", "RestauranteGerente", new { id = p.Id }, null) </th>
+                <th>@Html.ActionLink("Modificar", "Index", "Home")</th>
+            </tr>
+        }
+        <form method="post" action="~/RestauranteGerente/AdicionarProduto">
+        <tr>
+            <th><input type="text" name="nome" /></th>
+            <th><input type="text" name="descricao" /></th>
+            <th><input type="text" name="preco" /></th>
+            <th><input type="submit" /></th>
+            <th></th>
+        </tr>
+        <input type="hidden" name="categoria" value="@cp.Key.Id">
+        </form>
+    </table>
+    <br />
+</div>
+}
+<div class="container">
+    <h2>Adicionar Categoria</h2>
+    <form method="post" action="~/RestauranteGerente/AdicionarCategoria">
+        <div class="form-group">
+            <label>Nome</label>
+            <br />
+            <input type="text" name="Nome" />
+        </div>
+        <div class="form-group">
+            <label>Descrição</label>
+            <br />
+            <input type="text" name="Descricao" />
+        </div>
+        <div class="form-group">
+            <label>Imediato</label>
+            <br />
+            <input type="checkbox" name="Imediato" />
+        </div>
+        <input type="submit" />
+    </form>
+</div>

@@ -1,0 +1,44 @@
+﻿@using ProjetoR.Models.ProjetoR;
+@using ProjetoR.Models.Seguranca;
+@{ 
+
+}
+
+<div class="container">
+    <h2>Pedidos</h2>
+    @foreach (Pedido p in Usuario.Cozinha.CarregarPedidos())
+    {
+        <form method="post" action="~/RestauranteCozinha/AlterarStatus">
+            <input type="hidden" name="id" value="@p.Id"/>
+            <select name="status">
+                @{ 
+                    <option value="@p.Status">@((Status)p.Status)</option>
+                    List<Status> all = StatusAjudante.Todos();
+                    all.Remove((Status)p.Status);
+                    foreach (Status s in all)
+                    {
+                        <option value="@((int)s)">@s</option>
+                    }
+                }
+            </select>
+            <input type="submit"/>
+        </form>
+        <h3>Emissão: @p.Emissao</h3>
+        <h3>Mesa: @(p.CarregarCliente().MesaId)</h3>
+        <table class="table">
+            <tr>
+                <th>Nome</th>
+                <th>Observações</th>
+            </tr>
+            @foreach (PedidoItem item in p.CarregarItems())
+            {
+                Produto produto = item.CarregarProduto();
+                <tr>
+                    <th>@produto.Nome</th>
+                    <th>@item.Observacoes</th>
+                </tr>
+            }
+        </table>
+    }
+
+</div>
